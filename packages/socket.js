@@ -23,8 +23,8 @@ class Socket {
         return server
     }
 
-    _send(msg) {
-         this.socket.send((msg),this._port,this._host,(err)=>{
+    _send(msg=[]) {
+        this.socket.send((msg),this._port,this._host,(err)=>{
             if (err){
                 console.log('err',err);
             }
