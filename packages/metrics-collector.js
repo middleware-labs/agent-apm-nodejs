@@ -21,6 +21,7 @@ class MetricsCollector {
             if(this.isHostInstalled)
                 this.recorder._sendToHost()
         }, 10000)
+
     }
 
     getCPUUsages(){
