@@ -16,7 +16,7 @@ class Recorder {
     }
 
     recorderMetric(metric_name,value){
-        this.isHostInstalled ? this.enqueue.push({[metric_name]:value}) : this.hostRecorder._send(metric_name,value)
+        this.isHostInstalled ? this.enqueue[metric_name]=value : this.hostRecorder._send(metric_name,value)
     }
 
     _sendToHost(){

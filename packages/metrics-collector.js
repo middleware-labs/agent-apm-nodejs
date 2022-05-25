@@ -58,7 +58,7 @@ class MetricsCollector {
 
     getMemoryUsages(){
         const stats = process.memoryUsage()
-        this.recorder.recorderMetric('mem.heap_total', stats.heapTotal)
+        this.recorder.recorderMetric('node.mem.heap_total', stats.heapTotal)
         this.recorder.recorderMetric('node.mem.heap_used', stats.heapUsed)
         this.recorder.recorderMetric('node.mem.rss', stats.rss)
         this.recorder.recorderMetric('node.mem.total', os.totalmem())
