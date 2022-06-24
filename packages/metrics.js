@@ -1,13 +1,20 @@
 'use strict'
 const MetricsCollector = require("./metrics-collector");
 const exec = require('child_process').exec;
-require('./tracing')
-module.exports.track =  async () => {
-    // let isHostInstalled = await isHostRunning('chrome')
+//require('./tracing')
+const logger = require('./logger')
+
+module.exports.track =   () => {
+   // let isHostInstalled = await isHostRunning('chrome')
     let isHostInstalled=false;
     let collector = new MetricsCollector({isHostInstalled})
     collector.init()
 };
+
+module.exports.log =  (label,msg) => {
+    logger.log(label,msg)
+};
+
 async function isHostRunning(query) {
     try{
         let platform = process.platform;
@@ -26,24 +33,3 @@ async function isHostRunning(query) {
     return false
 }
 
-// for testing
-const express = require('express');
-const app = express()
-const port = 3070
-app.get('/movies', async function (req, res) {
-    res.type('json')
-    // var delay = Math.floor( ( Math.random() * 2000 ) + 100);
-    setTimeout((() => {
-        res.send(({
-            movies: [
-                {name: 'Jaws', genre: 'Thriller'},
-                {name: 'Annie', genre: 'Family'},
-                {name: 'Jurassic Park', genre: 'Action'},
-            ]
-        }))
-    }), 1000)
-})
-
-app.listen(port, () => {
-    console.log(`Listening movies at http://localhost:${port}`)
-})

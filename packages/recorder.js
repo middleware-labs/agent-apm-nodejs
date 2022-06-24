@@ -15,7 +15,7 @@ class Recorder {
         }
     }
 
-    recorderMetric(metric_name,value){
+    recorderMetric(metric_name,value,tag=""){
         this.isHostInstalled ? this.enqueue[metric_name]=value : this.hostRecorder._send(metric_name,value)
     }
 
