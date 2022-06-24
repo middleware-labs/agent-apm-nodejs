@@ -41,18 +41,18 @@ class MetricsCollector {
         this.recorder.recorderMetric('node.cpu.system', systemPercent.toFixed(2))
         this.recorder.recorderMetric('node.cpu.user', userPercent.toFixed(2))
         this.recorder.recorderMetric('node.cpu.total', totalPercent.toFixed(2))
-        this.recorder.recorderMetric('node.process.time', Math.round(process.uptime()))
+        this.recorder.recorderMetric('node.process.uptime', Math.round(process.uptime()))
     }
 
     getHeapSpace () {
         if (!v8.getHeapSpaceStatistics) return
         const stats = v8.getHeapSpaceStatistics()
         for (let i = 0, l = stats.length; i < l; i++) {
-            const tags = [`space:${stats[i].space_name}`]
-            this.recorder.recorderMetric('heap.size.by.space', stats[i].space_size, tags)
-            this.recorder.recorderMetric('heap.used_size.by.space', stats[i].space_used_size, tags)
-            this.recorder.recorderMetric('heap.available_size.by.space', stats[i].space_available_size, tags)
-            this.recorder.recorderMetric('heap.physical_size.by.space', stats[i].physical_space_size, tags)
+            const tags = `${stats[i].space_name}`
+        //    this.recorder.recorderMetric(`node.heap.size.by.space.${tags}`,stats[i].space_size, tags)
+        //    this.recorder.recorderMetric(`node.heap.used_size.by.space.${tags}`, stats[i].space_used_size, tags)
+        //    this.recorder.recorderMetric(`node.heap.available_size.by.space.${tags}`, stats[i].space_available_size, tags)
+         //   this.recorder.recorderMetric(`node.heap.physical_size.by.space.${tags}`, stats[i].physical_space_size, tags)
         }
     }
 
