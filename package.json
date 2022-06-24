@@ -1,5 +1,5 @@
 {
-  "name": "melt-node-metrics",
+  "name": "@middlewarelabs-devs/melt-node-metrics",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
