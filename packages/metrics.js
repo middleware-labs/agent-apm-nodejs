@@ -1,11 +1,11 @@
 'use strict'
 const MetricsCollector = require("./metrics-collector");
 const exec = require('child_process').exec;
-//require('./tracing')
+require('./tracing')
 const logger = require('./logger')
 
 module.exports.track =   () => {
-   // let isHostInstalled = await isHostRunning('chrome')
+    // let isHostInstalled = await isHostRunning('chrome')
     let isHostInstalled=false;
     let collector = new MetricsCollector({isHostInstalled})
     collector.init()
