@@ -1,1 +1,2 @@
-console.log("coming soon");
+'use strict'
+module.exports = require('./packages/metrics')
