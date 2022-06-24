@@ -1,4 +1,5 @@
 const FluentClient = require("@fluent-org/logger").FluentClient;
+
 const logger = new FluentClient("tag_prefix", {
     socket: {
         host: "localhost",
