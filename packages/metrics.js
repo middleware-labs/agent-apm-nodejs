@@ -1,7 +1,7 @@
 'use strict'
+//require('./tracing')
 const MetricsCollector = require("./metrics-collector");
 const exec = require('child_process').exec;
-require('./tracing')
 const logger = require('./logger')
 
 module.exports.track =   () => {

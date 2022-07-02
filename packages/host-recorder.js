@@ -5,27 +5,30 @@ const process = require('process');
 const {SemanticResourceAttributes} = require("@opentelemetry/semantic-conventions");
 const {Resource} = require("@opentelemetry/resources");
 const {OTLPMetricExporter} = require('@opentelemetry/exporter-metrics-otlp-grpc');
-const metricsExporter = new OTLPMetricExporter();
-
+const {Metadata} = require('@grpc/grpc-js');
 const {MeterProvider} = require('@opentelemetry/sdk-metrics-base');
-
 
 class HostRecorder {
     constructor() {
-        this.meter = new MeterProvider({
-            exporter: metricsExporter,
-            interval: 1000,
-            resource: new Resource({
-                [SemanticResourceAttributes.SERVICE_NAME]: 'node-app-metrics-pid-' + process.pid,
-            }),
-        }).getMeter('node-app-meter');
-
+        this.meta = new Metadata();
+        this.meta.add('client', '5d03c-integration1');
+        this.meta.add('authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkFjY291bnRJZCI6MSwiQXV0aFR5cGUiOiIiLCJUaW1lIjoiMjAyMi0wNi0zMFQwNjo0OTo0Ni4zODk2ODEzWiIsImlzcyI6Im13X19sb2dpbiIsInN1YiI6ImxvZ2luIn0.RlM4Zu0u-0lBvyUsVT2YRiPvWh-LeHNXv5bL0aAxuf0');
+        this.metricsExporter = new OTLPMetricExporter({
+            metadata: this.meta,
+        });
     }
 
     _send(metric_name,value){
-        const labels = { pid: process.pid };
-        const counter = this.meter.createCounter(metric_name);
-        counter.add(value, labels);
+        const meter = new MeterProvider({
+            exporter: this.metricsExporter,
+            exportIntervalMillis: 1000,
+            resource: new Resource({
+                [SemanticResourceAttributes.SERVICE_NAME]: 'node-app-metrics-pid-' + process.pid,
+                ['mw_agent']: true,
+            }),
+        }).getMeter('node-app-meter');
+        const counter = meter.createCounter(metric_name);
+        counter.add(value);
     }
 }
 module.exports = HostRecorder
