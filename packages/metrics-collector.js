@@ -15,9 +15,9 @@ class MetricsCollector {
     init(){
         setInterval(() => {
             this.getCPUUsages()
-            this.getHeapSpace()
-            this.getMemoryUsages()
-            this.getHeapStats()
+             this.getHeapSpace()
+             this.getMemoryUsages()
+             this.getHeapStats()
             if(this.isHostInstalled)
                 this.recorder._sendToHost()
         }, 10000)
@@ -49,10 +49,10 @@ class MetricsCollector {
         const stats = v8.getHeapSpaceStatistics()
         for (let i = 0, l = stats.length; i < l; i++) {
             const tags = `${stats[i].space_name}`
-        //    this.recorder.recorderMetric(`node.heap.size.by.space.${tags}`,stats[i].space_size, tags)
-        //    this.recorder.recorderMetric(`node.heap.used_size.by.space.${tags}`, stats[i].space_used_size, tags)
-        //    this.recorder.recorderMetric(`node.heap.available_size.by.space.${tags}`, stats[i].space_available_size, tags)
-         //   this.recorder.recorderMetric(`node.heap.physical_size.by.space.${tags}`, stats[i].physical_space_size, tags)
+            this.recorder.recorderMetric(`node.heap.size.by.space.${tags}`,stats[i].space_size, tags)
+            this.recorder.recorderMetric(`node.heap.used_size.by.space.${tags}`, stats[i].space_used_size, tags)
+            this.recorder.recorderMetric(`node.heap.available_size.by.space.${tags}`, stats[i].space_available_size, tags)
+            this.recorder.recorderMetric(`node.heap.physical_size.by.space.${tags}`, stats[i].physical_space_size, tags)
         }
     }
 
