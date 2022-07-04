@@ -24,6 +24,7 @@ class Recorder {
             this.buffer = Buffer.from(JSON.stringify(this.enqueue))
             this.socket._send([this.buffer])
         }else{
+            console.log('length',this.enqueue.length)
             Object.keys(this.enqueue).forEach( metric_name => {
                this.hostRecorder._send(metric_name,this.enqueue[metric_name])
             });
