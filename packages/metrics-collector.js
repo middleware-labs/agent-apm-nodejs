@@ -14,70 +14,68 @@ class MetricsCollector {
 
     init(){
         setInterval(() => {
-            this.getCPUUsages()
-             this.getHeapSpace()
-             this.getMemoryUsages()
-             this.getHeapStats()
-            if(this.isHostInstalled)
-                this.recorder._sendToHost()
+              this.getCPUUsages()
+              this.getHeapSpace()
+              this.getMemoryUsages()
+              this.getHeapStats()
+              this.recorder._send(this.isHostInstalled)
         }, 10000)
-
     }
 
-    getCPUUsages(){
+     getCPUUsages(){
         if (!process.cpuUsage) return
 
-        const elapsedTime = process.hrtime(this.time)
-        const elapsedUsage = process.cpuUsage(this.cpuUsage)
+        this.elapsedTime = process.hrtime(this.time)
+        this.elapsedUsage = process.cpuUsage(this.cpuUsage)
 
         this.time = process.hrtime()
         this.cpuUsage = process.cpuUsage()
 
-        const elapsedMs = elapsedTime[0] * 1000 + elapsedTime[1] / 1000000
-        const userPercent = 100 * elapsedUsage.user / 1000 / elapsedMs
-        const systemPercent = 100 * elapsedUsage.system / 1000 / elapsedMs
-        const totalPercent = userPercent + systemPercent
-
-        this.recorder.recorderMetric('node.cpu.system', systemPercent.toFixed(2))
-        this.recorder.recorderMetric('node.cpu.user', userPercent.toFixed(2))
-        this.recorder.recorderMetric('node.cpu.total', totalPercent.toFixed(2))
-        this.recorder.recorderMetric('node.process.uptime', Math.round(process.uptime()))
+        this.elapsedMs =  this.elapsedTime[0] * 1000 +  this.elapsedTime[1] / 1000000
+        this.userPercent = 100 *  this.elapsedUsage.user / 1000 /  this.elapsedMs
+        this.systemPercent = 100 *  this.elapsedUsage.system / 1000 /  this.elapsedMs
+        this.totalPercent =  this.userPercent +  this.systemPercent
+        this.recorder.recorderMetric('cpu.system',  this.systemPercent.toFixed(2))
+        this.recorder.recorderMetric('cpu.user',  this.userPercent.toFixed(2))
+        this.recorder.recorderMetric('cpu.total',  this.totalPercent.toFixed(2))
+        this.recorder.recorderMetric('process.uptime', Math.round(process.uptime()))
     }
 
-    getHeapSpace () {
+     getHeapSpace () {
         if (!v8.getHeapSpaceStatistics) return
-        const stats = v8.getHeapSpaceStatistics()
-        for (let i = 0, l = stats.length; i < l; i++) {
-            const tags = `${stats[i].space_name}`
-            this.recorder.recorderMetric(`node.heap.size.by.space.${tags}`,stats[i].space_size, tags)
-            this.recorder.recorderMetric(`node.heap.used_size.by.space.${tags}`, stats[i].space_used_size, tags)
-            this.recorder.recorderMetric(`node.heap.available_size.by.space.${tags}`, stats[i].space_available_size, tags)
-            this.recorder.recorderMetric(`node.heap.physical_size.by.space.${tags}`, stats[i].physical_space_size, tags)
+        this.stats = v8.getHeapSpaceStatistics()
+        for (let i = 0, l = this.stats.length; i < l; i++) {
+            this.tags = `${this.stats[i].space_name}`
+            this.recorder.recorderMetric(`heap.size.by.space.${this.tags}`,this.stats[i].space_size, this.tags)
+            this.recorder.recorderMetric(`heap.used_size.by.space.${this.tags}`, this.stats[i].space_used_size, this.tags)
+            this.recorder.recorderMetric(`heap.available_size.by.space.${this.tags}`, this.stats[i].space_available_size, this.tags)
+            this.recorder.recorderMetric(`heap.physical_size.by.space.${this.tags}`, this.stats[i].physical_space_size, this.tags)
         }
     }
 
-    getMemoryUsages(){
-        const stats = process.memoryUsage()
-        this.recorder.recorderMetric('node.mem.heap_total', stats.heapTotal)
-        this.recorder.recorderMetric('node.mem.heap_used', stats.heapUsed)
-        this.recorder.recorderMetric('node.mem.rss', stats.rss)
-        this.recorder.recorderMetric('node.mem.total', os.totalmem())
-        this.recorder.recorderMetric('node.mem.free', os.freemem())
+     getMemoryUsages(){
+        this.stats = process.memoryUsage()
+        console.log(`The script uses approximately ${Math.round(( process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100} MB`);
+        this.recorder.recorderMetric('mem.heap_total', this.stats.heapTotal)
+        this.recorder.recorderMetric('mem.heap_used', this.stats.heapUsed)
+        this.recorder.recorderMetric('mem.rss', this.stats.rss)
+        this.recorder.recorderMetric('mem.total', os.totalmem())
+        this.recorder.recorderMetric('mem.free', os.freemem())
 
-        stats.external && this.recorder.recorderMetric('node.mem.external', stats.external)
+        this.stats.external && this.recorder.recorderMetric('mem.external', this.stats.external)
     }
 
-    getHeapStats () {
-        const stats = v8.getHeapStatistics()
+     getHeapStats () {
+        this.stats = v8.getHeapStatistics()
 
-        this.recorder.recorderMetric('node.heap.total_heap_size', stats.total_heap_size)
-        this.recorder.recorderMetric('node.heap.total_heap_size_executable', stats.total_heap_size_executable)
-        this.recorder.recorderMetric('node.heap.total_physical_size', stats.total_physical_size)
-        this.recorder.recorderMetric('node.heap.total_available_size', stats.total_available_size)
-        this.recorder.recorderMetric('node.heap.heap_size_limit', stats.heap_size_limit)
+        this.recorder.recorderMetric('heap.total_heap_size', this.stats.total_heap_size)
+        this.recorder.recorderMetric('heap.total_heap_size_executable', this.stats.total_heap_size_executable)
+        this.recorder.recorderMetric('heap.total_physical_size', this.stats.total_physical_size)
+        this.recorder.recorderMetric('heap.total_available_size', this.stats.total_available_size)
+        this.recorder.recorderMetric('heap.heap_size_limit', this.stats.heap_size_limit)
 
-        stats.malloced_memory && this.recorder.recorderMetric('node.heap.malloced_memory', stats.malloced_memory)
-        stats.peak_malloced_memory && this.recorder.recorderMetric('node.heap.peak_malloced_memory', stats.peak_malloced_memory)
+        this.stats.malloced_memory && this.recorder.recorderMetric('heap.malloced_memory', this.stats.malloced_memory)
+        this.stats.peak_malloced_memory && this.recorder.recorderMetric('heap.peak_malloced_memory', this.stats.peak_malloced_memory)
     }
 }
 module.exports = MetricsCollector

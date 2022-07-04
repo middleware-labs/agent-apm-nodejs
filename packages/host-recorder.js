@@ -21,6 +21,7 @@ class HostRecorder {
     _send(metric_name,value){
         const meter = new MeterProvider({
             exporter: this.metricsExporter,
+            interval:1000,
             exportIntervalMillis: 1000,
             resource: new Resource({
                 [SemanticResourceAttributes.SERVICE_NAME]: 'node-app-metrics-pid-' + process.pid,
