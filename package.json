@@ -3,7 +3,9 @@
   "version": "1.4.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "node-gyp build",
+    "start": "set OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317 && node server.js token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkFjY291bnRJZCI6MSwiQXV0aFR5cGUiOiIiLCJUaW1lIjoiMjAyMi0wNi0zMFQwNjo0OTo0Ni4zODk2ODEzWiIsImlzcyI6Im13X19sb2dpbiIsInN1YiI6ImxvZ2luIn0.RlM4Zu0u-0lBvyUsVT2YRiPvWh-LeHNXv5bL0aAxuf0"
   },
   "author": "",
   "license": "ISC",

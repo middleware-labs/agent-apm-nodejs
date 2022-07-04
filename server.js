@@ -1,4 +1,5 @@
 'use strict'
 const metrics = require('./packages/metrics')
 metrics.track()
-metrics.log('info','Hiiiii from node app 1')
+metrics.log('info','Hi from node app')
+

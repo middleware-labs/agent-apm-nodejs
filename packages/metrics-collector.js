@@ -2,6 +2,7 @@
 const v8 = require('v8')
 const os = require('os')
 const Recorder = require("./recorder");
+const eventLoop = require('./../build/Release/eventLoopStats');
 
 class MetricsCollector {
 
@@ -18,8 +19,16 @@ class MetricsCollector {
               this.getHeapSpace()
               this.getMemoryUsages()
               this.getHeapStats()
+              this.getEventLoopStats()
               this.recorder._send(this.isHostInstalled)
         }, 10000)
+    }
+
+    getEventLoopStats(){
+       this.eventLoopMatric = eventLoop.sense()
+       this.recorder.recorderMetric('event_loop.delay.min',  this.eventLoopMatric.min.toFixed(2))
+       this.recorder.recorderMetric('event_loop.delay.max',  this.eventLoopMatric.max.toFixed(2))
+       this.recorder.recorderMetric('event_loop.delay.sum',  this.eventLoopMatric.sum.toFixed(2))
     }
 
      getCPUUsages(){

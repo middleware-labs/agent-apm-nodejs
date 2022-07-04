@@ -19,7 +19,8 @@ class HostRecorder {
     }
 
     _send(metric_name,value){
-        const meter = new MeterProvider({
+        console.log(metric_name,value);
+        this.meter = new MeterProvider({
             exporter: this.metricsExporter,
             interval:1000,
             exportIntervalMillis: 1000,
@@ -28,8 +29,8 @@ class HostRecorder {
                 ['mw_agent']: true,
             }),
         }).getMeter('node-app-meter');
-        const counter = meter.createCounter(metric_name);
-        counter.add(value);
+        this.counter = this.meter.createCounter(metric_name);
+        this.counter.add(value);
     }
 }
 module.exports = HostRecorder
