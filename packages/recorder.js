@@ -7,23 +7,29 @@ class Recorder {
 
     constructor(config) {
         this.isHostInstalled = config.isHostInstalled || false;
+        this.enqueue=[];
         if (!this.isHostInstalled){
             this.hostRecorder=new HostRecorder()
         }else {
             this.socket = new socket();
-            this.enqueue=[];
         }
     }
 
     recorderMetric(metric_name,value,tag=""){
-        console.log('recorderMetric',metric_name,value)
-        this.isHostInstalled ? this.enqueue[metric_name]=value : this.hostRecorder._send(metric_name,value)
+        this.enqueue[metric_name]=value;
     }
 
-    _sendToHost(){
-        let buffer = Buffer.from(JSON.stringify(this.enqueue))
-        this.socket._send([buffer])
+    _send(host = false){
+        if (host){
+            this.buffer = Buffer.from(JSON.stringify(this.enqueue))
+            this.socket._send([this.buffer])
+        }else{
+            Object.keys(this.enqueue).forEach( metric_name => {
+               this.hostRecorder._send(metric_name,this.enqueue[metric_name])
+            });
+        }
     }
+
 }
 module.exports = Recorder
 
