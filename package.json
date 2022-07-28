@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "preinstall": "node-gyp build",
-    "start": "set OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317 && node server.js token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkFjY291bnRJZCI6MSwiQXV0aFR5cGUiOiIiLCJUaW1lIjoiMjAyMi0wNi0zMFQwNjo0OTo0Ni4zODk2ODEzWiIsImlzcyI6Im13X19sb2dpbiIsInN1YiI6ImxvZ2luIn0.RlM4Zu0u-0lBvyUsVT2YRiPvWh-LeHNXv5bL0aAxuf0"
+    "start": "set OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317 && node server.js"
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +25,7 @@
     "@opentelemetry/sdk-trace-node": "^1.0.1",
     "@opentelemetry/semantic-conventions": "^1.2.0",
     "dgram": "^1.0.1",
+    "express": "^4.18.1",
     "nan": "^2.15.0",
     "node-addon-api": "^4.3.0",
     "node-fetch": "^2.6.0",
