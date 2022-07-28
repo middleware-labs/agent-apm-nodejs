@@ -1,11 +1,9 @@
 {
   "name": "@middlewarelabs-devs/melt-node-metrics",
-  "version": "1.4.0",
+  "version": "1.6.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "preinstall": "node-gyp build",
-    "start": "set OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317 && node server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
