@@ -9,7 +9,7 @@ class Recorder {
         this.isHostInstalled = config.isHostInstalled || false;
         this.enqueue=[];
         if (!this.isHostInstalled){
-            this.hostRecorder=new HostRecorder()
+            this.hostRecorder=new HostRecorder(config)
         }else {
             this.socket = new socket();
         }
@@ -24,7 +24,6 @@ class Recorder {
             this.buffer = Buffer.from(JSON.stringify(this.enqueue))
             this.socket._send([this.buffer])
         }else{
-            console.log('length',this.enqueue.length)
             Object.keys(this.enqueue).forEach( metric_name => {
                this.hostRecorder._send(metric_name,this.enqueue[metric_name])
             });

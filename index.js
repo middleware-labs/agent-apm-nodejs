@@ -1,2 +1,2 @@
 'use strict'
-module.exports = require('./packages/metrics')
+module.exports = require('./packages/init')

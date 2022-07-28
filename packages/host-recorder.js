@@ -9,17 +9,16 @@ const {Metadata} = require('@grpc/grpc-js');
 const {MeterProvider} = require('@opentelemetry/sdk-metrics-base');
 
 class HostRecorder {
-    constructor() {
+    constructor(config) {
         this.meta = new Metadata();
         this.meta.add('client', '5d03c-integration1');
-        this.meta.add('authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjEsIkFjY291bnRJZCI6MSwiQXV0aFR5cGUiOiIiLCJUaW1lIjoiMjAyMi0wNi0zMFQwNjo0OTo0Ni4zODk2ODEzWiIsImlzcyI6Im13X19sb2dpbiIsInN1YiI6ImxvZ2luIn0.RlM4Zu0u-0lBvyUsVT2YRiPvWh-LeHNXv5bL0aAxuf0');
+        this.meta.add('authorization', config.MELT_API_KEY);
         this.metricsExporter = new OTLPMetricExporter({
             metadata: this.meta,
         });
     }
 
     _send(metric_name,value){
-        console.log(metric_name,value);
         this.meter = new MeterProvider({
             exporter: this.metricsExporter,
             interval:1000,

@@ -10,7 +10,7 @@ class MetricsCollector {
         this.isHostInstalled = config.isHostInstalled || false;
         this.time = process.hrtime()
         this.cpuUsage=false
-        this.recorder = new Recorder({isHostInstalled:this.isHostInstalled})
+        this.recorder = new Recorder(config)
     }
 
     init(){
