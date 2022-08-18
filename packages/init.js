@@ -1,9 +1,4 @@
-'use strict'
-
-const {diag, DiagConsoleLogger, DiagLogLevel} = require('@opentelemetry/api');
-diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
-
-require("./tracer-collector").tracer();
+require('./tracer-collector')
 
 const MetricsCollector = require("./metrics-collector");
 
