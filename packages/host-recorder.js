@@ -1,6 +1,4 @@
 'use strict'
-const {diag, DiagConsoleLogger, DiagLogLevel} = require('@opentelemetry/api');
-diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
 const process = require('process');
 const {SemanticResourceAttributes} = require("@opentelemetry/semantic-conventions");
 const {Resource} = require("@opentelemetry/resources");
