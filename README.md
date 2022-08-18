@@ -10,16 +10,18 @@ set OTEL_EXPORTER_OTLP_ENDPOINT = '<capture_address>'
 
 set MELT_LOGGER_ENDPOINT = '<logger_endpoint>'
 
+set MELT_API_KEY = '<api_key>'
+
+set MELT_APM_PAUSE_METRICS = '<true/false>'
+
+set MELT_APM_PAUSE_TRACES = '<true/false>'
+
 
 ```javascript
 
-const tracker = require('@middlewarelabs-devs/melt-node-metrics')
+const tracker = require('@middlewarelabs-devs/melt-node-metrics');
 
-tracker.track({
-    MELT_API_KEY:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ',
-    MELT_APM_PAUSE_METRICS:false,
-    MELT_APM_PAUSE_TRACES:false
-})
+tracker.track();
 
 tracker.error('error');
 
