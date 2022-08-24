@@ -7,7 +7,6 @@ const eventLoop = require('./../build/Release/eventLoopStats');
 class MetricsCollector {
 
     constructor(config) {
-        this.isHostInstalled = config.isHostInstalled || false;
         this.time = process.hrtime()
         this.cpuUsage=false
         this.recorder = new Recorder(config)
@@ -20,7 +19,7 @@ class MetricsCollector {
               this.getMemoryUsages()
               this.getHeapStats()
               this.getEventLoopStats()
-              this.recorder._send(this.isHostInstalled)
+              this.recorder._send()
         }, 10000)
     }
 

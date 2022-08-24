@@ -3,21 +3,23 @@
 ## Installation
 
 `npm install @middlewarelabs-devs/melt-node-metrics` or `yarn add @middlewarelabs-devs/melt-node-metrics`
-
+<br />
+<br />
 ### Environment Variables
+<br />
 
-export OTEL_EXPORTER_OTLP_ENDPOINT = '<capture_address>'
 
-export MELT_NODEJS_LOGGER_HOST = '<logger_host>'
+Environment Name               |    Value
+------------------------------ |    --------------------------
+OTEL_EXPORTER_OTLP_ENDPOINT    |    '<capture_address>'
+MELT_API_KEY                   |    '<api_key>'
+MELT_NODEJS_APM_PAUSE_METRICS  |    '<true/false>'
+MELT_NODEJS_APM_PAUSE_TRACES   |    '<true/false>'
+MELT_NODEJS_LOGGER_HOST        |    '<logger_host>'
+MELT_NODEJS_LOGGER_PORT        |    '<logger_port>'
 
-export MELT_NODEJS_LOGGER_PORT = '<logger_port>'
-
-export MELT_API_KEY = '<api_key>'
-
-export MELT_NODEJS_APM_PAUSE_METRICS = '<true/false>'
-
-export MELT_NODEJS_APM_PAUSE_TRACES = '<true/false>'
-
+<br />
+<br />
 
 ```javascript
 
