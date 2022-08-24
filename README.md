@@ -6,15 +6,17 @@
 
 ### Environment Variables
 
-set OTEL_EXPORTER_OTLP_ENDPOINT = '<capture_address>'
+export OTEL_EXPORTER_OTLP_ENDPOINT = '<capture_address>'
 
-set MELT_LOGGER_ENDPOINT = '<logger_endpoint>'
+export MELT_NODEJS_LOGGER_HOST = '<logger_host>'
 
-set MELT_API_KEY = '<api_key>'
+export MELT_NODEJS_LOGGER_PORT = '<logger_port>'
 
-set MELT_APM_PAUSE_METRICS = '<true/false>'
+export MELT_API_KEY = '<api_key>'
 
-set MELT_APM_PAUSE_TRACES = '<true/false>'
+export MELT_NODEJS_APM_PAUSE_METRICS = '<true/false>'
+
+export MELT_NODEJS_APM_PAUSE_TRACES = '<true/false>'
 
 
 ```javascript
@@ -30,8 +32,6 @@ tracker.info('info');
 tracker.warn('warning');
 
 tracker.debug('debug');
-
-tracker.log('log');
 
 ```
 

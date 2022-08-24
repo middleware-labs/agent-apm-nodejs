@@ -1,6 +1,6 @@
 {
   "name": "@middlewarelabs-devs/melt-node-metrics",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -8,7 +8,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@fluent-org/logger": "^1.0.9",
+    "fluent-logger": "^3.4.1",
     "@grpc/grpc-js": "^1.6.7",
     "@opentelemetry/api": "^1.0.4",
     "@opentelemetry/auto-instrumentations-node": "^0.28.0",
@@ -27,7 +27,8 @@
     "node-addon-api": "^4.3.0",
     "node-fetch": "^2.6.0",
     "node-gyp": "^9.0.0",
-    "process": "^0.11.10"
+    "process": "^0.11.10",
+    "winston": "^3.8.1"
   },
   "gypfile": true,
   "repository": {
