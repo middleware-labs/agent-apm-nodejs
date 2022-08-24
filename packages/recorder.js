@@ -1,33 +1,22 @@
 'use strict'
 
-const socket = require('./socket')
 const HostRecorder = require('./host-recorder')
 
 class Recorder {
 
     constructor(config) {
-        this.isHostInstalled = config.isHostInstalled || false;
         this.enqueue=[];
-        if (!this.isHostInstalled){
-            this.hostRecorder=new HostRecorder(config)
-        }else {
-            this.socket = new socket();
-        }
+        this.hostRecorder=new HostRecorder(config)
     }
 
     recorderMetric(metric_name,value,tag=""){
         this.enqueue[metric_name]=value;
     }
 
-    _send(host = false){
-        if (host){
-            this.buffer = Buffer.from(JSON.stringify(this.enqueue))
-            this.socket._send([this.buffer])
-        }else{
-            Object.keys(this.enqueue).forEach( metric_name => {
-               this.hostRecorder._send(metric_name,this.enqueue[metric_name])
-            });
-        }
+    _send(){
+        Object.keys(this.enqueue).forEach( metric_name => {
+            this.hostRecorder._send(metric_name,this.enqueue[metric_name])
+        });
     }
 
 }
