@@ -1,4 +1,4 @@
-let apm_pause_traces= process.env.MELT_APM_PAUSE_TRACES && process.env.MELT_APM_PAUSE_TRACES==true ? true : false;
+let apm_pause_traces= process.env.MELT_NODEJS_APM_PAUSE_TRACES && process.env.MELT_NODEJS_APM_PAUSE_TRACES==true ? true : false;
 if(!apm_pause_traces) {
     'use strict'
     const {diag, DiagConsoleLogger, DiagLogLevel} = require('@opentelemetry/api');
