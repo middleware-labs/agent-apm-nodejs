@@ -1,25 +1,30 @@
-let apm_pause_traces= process.env.MELT_NODEJS_APM_PAUSE_TRACES && process.env.MELT_NODEJS_APM_PAUSE_TRACES==true ? true : false;
+let apm_pause_traces= process.env.MELT_NODEJS_APM_PAUSE_TRACES && process.env.MELT_NODEJS_APM_PAUSE_TRACES==1 ? true : false;
 if(!apm_pause_traces) {
     'use strict'
-    const {diag, DiagConsoleLogger, DiagLogLevel} = require('@opentelemetry/api');
-    diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
     const grpc = require('@grpc/grpc-js');
     const {Metadata} = require('@grpc/grpc-js');
     const process = require('process');
     const opentelemetry = require('@opentelemetry/sdk-node');
     const {getNodeAutoInstrumentations} = require('@opentelemetry/auto-instrumentations-node');
     const {OTLPTraceExporter} = require('@opentelemetry/exporter-trace-otlp-grpc');
+    const {Resource} = require("@opentelemetry/resources");
     let meta = new Metadata();
     meta.add('client', '5d03c-integration1');
     meta.add('authorization', process.env.MELT_API_KEY);
     const sdk = new opentelemetry.NodeSDK({
         traceExporter: new OTLPTraceExporter({
-            metadata: meta
+            metadata: meta,
         }),
         instrumentations: [
             getNodeAutoInstrumentations()
         ],
     });
+
+    sdk.addResource(new Resource({
+        ['mw_agent']: true,
+        ['mw.account_key']:process.env.MELT_API_KEY
+    }))
+
     sdk.start()
         .then(() => console.log('Tracing initialized'))
         .catch((error) => console.log('Error initializing tracing', error));
