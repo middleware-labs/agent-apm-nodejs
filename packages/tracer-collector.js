@@ -7,6 +7,7 @@ if(!apm_pause_traces) {
     const opentelemetry = require('@opentelemetry/sdk-node');
     const {getNodeAutoInstrumentations} = require('@opentelemetry/auto-instrumentations-node');
     const {OTLPTraceExporter} = require('@opentelemetry/exporter-trace-otlp-grpc');
+    const { GrpcInstrumentation } = require('@opentelemetry/instrumentation-grpc');
     const {Resource} = require("@opentelemetry/resources");
     let meta = new Metadata();
     meta.add('client', '5d03c-integration1');
@@ -16,7 +17,10 @@ if(!apm_pause_traces) {
             metadata: meta,
         }),
         instrumentations: [
-            getNodeAutoInstrumentations()
+            getNodeAutoInstrumentations({}),
+            new GrpcInstrumentation({
+                ignoreGrpcMethods:["Export"]
+            })
         ],
     });
 
