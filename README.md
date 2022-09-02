@@ -12,7 +12,7 @@
 Environment Name               |    Value
 ------------------------------ |    --------------------------
 OTEL_EXPORTER_OTLP_ENDPOINT    |    '<capture_address>'
-MELT_API_KEY                   |    '<api_key>'
+MW_API_KEY                   |    '<api_key>'
 MELT_NODEJS_APM_PAUSE_METRICS  |    '<1/0>'
 MELT_NODEJS_APM_PAUSE_TRACES   |    '<1/0>'
 MELT_NODEJS_LOGGER_HOST        |    '<logger_host>'

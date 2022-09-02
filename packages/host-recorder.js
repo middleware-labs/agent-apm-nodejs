@@ -11,7 +11,7 @@ class HostRecorder {
         this.config=config;
         this.meta = new Metadata();
         this.meta.add('client', '5d03c-integration1');
-        this.meta.add('authorization', config.MELT_API_KEY);
+        this.meta.add('authorization', config.MW_API_KEY);
         this.metricsExporter = new OTLPMetricExporter({
             metadata: this.meta,
         });
@@ -25,7 +25,7 @@ class HostRecorder {
             resource: new Resource({
                 [SemanticResourceAttributes.SERVICE_NAME]: 'node-app-metrics-pid-' + process.pid,
                 ['mw_agent']: true,
-                ['mw.account_key']:this.config.MELT_API_KEY
+                ['mw.account_key']:this.config.MW_API_KEY
             }),
         }).getMeter('node-app-meter');
         this.counter = this.meter.createCounter(metric_name);
