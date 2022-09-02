@@ -33,11 +33,11 @@
   "gypfile": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/middleware-labs/agent-node-metrics.git"
+    "url": "git+https://github.com/middleware-labs/agent-apm-nodejs.git"
   },
   "bugs": {
-    "url": "https://github.com/middleware-labs/agent-node-metrics/issues"
+    "url": "https://github.com/middleware-labs/agent-apm-nodejs/issues"
   },
-  "homepage": "https://github.com/middleware-labs/agent-node-metrics#readme",
+  "homepage": "https://github.com/middleware-labs/agent-apm-nodejs#readme",
   "description": ""
 }
