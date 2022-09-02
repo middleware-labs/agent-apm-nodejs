@@ -1,8 +1,8 @@
 const winston = require('winston');
 
-const host =  process.env.MELT_NODEJS_LOGGER_HOST ? process.env.MELT_NODEJS_LOGGER_HOST : "localhost";
+const host =  process.env.MW_NODEJS_LOGGER_HOST ? process.env.MW_NODEJS_LOGGER_HOST : "localhost";
 
-const port =  process.env.MELT_NODEJS_LOGGER_PORT ? process.env.MELT_NODEJS_LOGGER_PORT : 8006;
+const port =  process.env.MW_NODEJS_LOGGER_PORT ? process.env.MW_NODEJS_LOGGER_PORT : 8006;
 
 const config = {
     host,

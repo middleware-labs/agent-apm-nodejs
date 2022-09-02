@@ -1,4 +1,4 @@
-let apm_pause_traces= process.env.MELT_NODEJS_APM_PAUSE_TRACES && process.env.MELT_NODEJS_APM_PAUSE_TRACES==1 ? true : false;
+let apm_pause_traces= process.env.MW_NODEJS_APM_PAUSE_TRACES && process.env.MW_NODEJS_APM_PAUSE_TRACES==1 ? true : false;
 if(!apm_pause_traces) {
     'use strict'
     const grpc = require('@grpc/grpc-js');
