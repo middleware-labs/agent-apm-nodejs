@@ -1,5 +1,5 @@
 {
-  "name": "@middlewarelabs-devs/melt-node-metrics",
+  "name": "@middlewarelabs-devs/mw-node-apm",
   "version": "2.0.9",
   "main": "index.js",
   "scripts": {

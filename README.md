@@ -1,8 +1,8 @@
-# melt-node-metrics
+# mw-node-apm
 
 ## Installation
 
-`npm install @middlewarelabs-devs/melt-node-metrics` or `yarn add @middlewarelabs-devs/melt-node-metrics`
+`npm install @middlewarelabs-devs/mw-node-apm` or `yarn add @middlewarelabs-devs/mw-node-apm`
 <br />
 <br />
 ### Environment Variables
@@ -13,17 +13,17 @@ Environment Name               |    Value
 ------------------------------ |    --------------------------
 OTEL_EXPORTER_OTLP_ENDPOINT    |    '<capture_address>'
 MW_API_KEY                   |    '<api_key>'
-MELT_NODEJS_APM_PAUSE_METRICS  |    '<1/0>'
-MELT_NODEJS_APM_PAUSE_TRACES   |    '<1/0>'
-MELT_NODEJS_LOGGER_HOST        |    '<logger_host>'
-MELT_NODEJS_LOGGER_PORT        |    '<logger_port>'
+MW_NODEJS_APM_PAUSE_METRICS  |    '<1/0>'
+MW_NODEJS_APM_PAUSE_TRACES   |    '<1/0>'
+MW_NODEJS_LOGGER_HOST        |    '<logger_host>'
+MW_NODEJS_LOGGER_PORT        |    '<logger_port>'
 
 <br />
 <br />
 
 ```javascript
 
-const tracker = require('@middlewarelabs-devs/melt-node-metrics');
+const tracker = require('@middlewarelabs-devs/mw-node-apm');
 
 tracker.track();
 
