@@ -11,7 +11,7 @@ if(!apm_pause_traces) {
     const {Resource} = require("@opentelemetry/resources");
     let meta = new Metadata();
     meta.add('client', '5d03c-integration1');
-    meta.add('authorization', process.env.MELT_API_KEY);
+    meta.add('authorization', process.env.MW_API_KEY);
     const sdk = new opentelemetry.NodeSDK({
         traceExporter: new OTLPTraceExporter({
             metadata: meta,
@@ -26,7 +26,7 @@ if(!apm_pause_traces) {
 
     sdk.addResource(new Resource({
         ['mw_agent']: true,
-        ['mw.account_key']:process.env.MELT_API_KEY
+        ['mw.account_key']:process.env.MW_API_KEY
     }))
 
     sdk.start()
