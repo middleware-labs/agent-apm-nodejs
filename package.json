@@ -1,5 +1,5 @@
 {
-  "name": "@middleware.io/mw-node-apm",
+  "name": "@middleware.io/node-apm",
   "version": "2.0.9",
   "main": "index.js",
   "scripts": {
