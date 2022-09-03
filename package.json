@@ -1,5 +1,5 @@
 {
-  "name": "@middlewarelabs-devs/mw-node-apm",
+  "name": "@mw-dev/mw-node-apm",
   "version": "2.0.9",
   "main": "index.js",
   "scripts": {
