@@ -1,10 +1,5 @@
-# mw-node-apm
+# Middleware Node APM
 
-## Installation
-
-`npm install @middlewarelabs-devs/mw-node-apm` or `yarn add @middlewarelabs-devs/mw-node-apm`
-<br />
-<br />
 ### Environment Variables
 <br />
 
