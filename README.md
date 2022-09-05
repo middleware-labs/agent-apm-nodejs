@@ -18,7 +18,7 @@ MW_NODEJS_LOGGER_PORT        |    '<logger_port>'
 
 ```javascript
 
-const tracker = require('@middlewarelabs-devs/mw-node-apm');
+const tracker = require('@middleware.io/node-apm');
 
 tracker.track();
 
