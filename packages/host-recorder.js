@@ -11,10 +11,13 @@ class HostRecorder {
         this.config=config;
         this.meta = new Metadata();
         this.meta.add('client', '5d03c-integration1');
-        this.meta.add('authorization', config.MW_API_KEY);
+        this.meta.add('authorization', config.apiKey);
         this.metricsExporter = new OTLPMetricExporter({
             metadata: this.meta,
+            url: config.host,
         });
+        this.serviceName = config.serviceName ? config.serviceName : 'Service-' + process.pid;
+        this.projectName = config.projectName ? config.projectName : 'Project-' + process.pid;
     }
 
     _send(metric_name,value){
@@ -23,9 +26,10 @@ class HostRecorder {
             interval:1000,
             exportIntervalMillis: 1000,
             resource: new Resource({
-                [SemanticResourceAttributes.SERVICE_NAME]: 'node-app-metrics-pid-' + process.pid,
+                [SemanticResourceAttributes.SERVICE_NAME]: this.serviceName,
                 ['mw_agent']: true,
-                ['mw.account_key']:this.config.MW_API_KEY
+                ['mw.account_key']:this.config.apiKey,
+                ['project.name']:this.projectName
             }),
         }).getMeter('node-app-meter');
         this.counter = this.meter.createCounter(metric_name);

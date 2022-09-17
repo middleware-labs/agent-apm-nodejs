@@ -6,10 +6,6 @@
 
 Environment Name               |    Value
 ------------------------------ |    --------------------------
-OTEL_EXPORTER_OTLP_ENDPOINT    |    '<capture_address>'
-MW_API_KEY                   |    '<api_key>'
-MW_NODEJS_APM_PAUSE_METRICS  |    '<1/0>'
-MW_NODEJS_APM_PAUSE_TRACES   |    '<1/0>'
 MW_NODEJS_LOGGER_HOST        |    '<logger_host>'
 MW_NODEJS_LOGGER_PORT        |    '<logger_port>'
 
@@ -20,7 +16,14 @@ MW_NODEJS_LOGGER_PORT        |    '<logger_port>'
 
 const tracker = require('@middleware.io/node-apm');
 
-tracker.track();
+tracker.track({
+    host:"http://localhost:4320",
+    apiKey:"36kb1q8i2aqxdpw4keb5z6aq3fz0zayl4",
+    projectName:"project 1",
+    serviceName:"service 1",
+    pauseMetrics:0,
+    pauseTraces:0
+})
 
 tracker.error('error');
 

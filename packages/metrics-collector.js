@@ -63,7 +63,6 @@ class MetricsCollector {
 
      getMemoryUsages(){
         this.stats = process.memoryUsage()
-        console.log(`The script uses approximately ${Math.round(( process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100} MB`);
         this.recorder.recorderMetric('mem.heap_total', this.stats.heapTotal)
         this.recorder.recorderMetric('mem.heap_used', this.stats.heapUsed)
         this.recorder.recorderMetric('mem.rss', this.stats.rss)
