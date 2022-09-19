@@ -16,7 +16,7 @@ module.exports =  (config) => {
         const sdk = new opentelemetry.NodeSDK({
             traceExporter: new OTLPTraceExporter({
                 metadata: meta,
-                url: config.host,
+                url: "http://"+config.host+":"+config.port.grpc,
             }),
             instrumentations: [
                 getNodeAutoInstrumentations({}),

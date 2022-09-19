@@ -1,14 +1,35 @@
-const MetricsCollector = require("./metrics-collector");
-
-module.exports = require('./logger')
-
-module.exports.track =   (config = {}) => {
-    require('./tracer-collector')(config)
+let logger;
+module.exports.track = (config = {}) => {
     if (!config.apiKey || !config.host || !config.projectName || !config.serviceName) return
-    let apm_pause_metrics= config.pauseMetrics && config.pauseMetrics==1 ? true : false;
-    if(!apm_pause_metrics) {
-         new MetricsCollector(config).init()
+    if (!config.port || (config.port && !config.port.grpc)) {
+        config['port']['grpc'] = "4320"
+    }
+    const MetricsCollector = require("./metrics-collector");
+    logger = require('./logger').init(config);
+    require('./tracer-collector')(config)
+    let apm_pause_metrics = config.pauseMetrics && config.pauseMetrics == 1 ? true : false;
+    if (!apm_pause_metrics) {
+        new MetricsCollector(config).init()
     }
 };
+
+module.exports.error = (message) => {
+    logger.error(message);
+};
+
+module.exports.info = (message) => {
+    logger.info(message);
+};
+
+module.exports.warn = (message) => {
+    logger.warn(message);
+};
+
+module.exports.debug = (message) => {
+    logger.debug(message);
+
+};
+
+
 
 

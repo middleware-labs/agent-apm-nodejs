@@ -1,45 +1,36 @@
-const winston = require('winston');
+module.exports.init = (config) => {
+    const winston = require('winston');
 
-const host =  process.env.MW_NODEJS_LOGGER_HOST ? process.env.MW_NODEJS_LOGGER_HOST : "localhost";
+    const tag = config.serviceName ? config.serviceName : 'nodejs-app';
 
-const port =  process.env.MW_NODEJS_LOGGER_PORT ? process.env.MW_NODEJS_LOGGER_PORT : 8006;
+    const host = config.host && config.host !== "" ? config.host : "localhost";
 
-const config = {
-    host,
-    port,
-    timeout: 3.0,
-    requireAckResponse: true // Add this option to wait response from Fluentd certainly
-};
-const fluentTransport = require('fluent-logger').support.winstonTransport();
+    const port = config.port && config.port.fluent && config.port.fluent !== "" ? config.port.fluent : 8006;
 
-const fluent = new fluentTransport('nodejs-tag', config);
+    const c = {
+        host,
+        port,
+        timeout: 3.0,
+        requireAckResponse: true // Add this option to wait response from Fluentd certainly
+    };
+    const fluentTransport = require('fluent-logger').support.winstonTransport();
 
-const logger = winston.createLogger({
-    transports: [fluent, new (winston.transports.Console)()]
-});
+    const fluent = new fluentTransport(tag, c);
 
-logger.on('flush', () => {
-    console.log("flush");
-})
+    const logger = winston.createLogger({
+        transports: [fluent, new (winston.transports.Console)()]
+    });
 
-logger.on('finish', () => {
-    console.log("finish");
-    fluent.sender.end("end", {}, () => {})
-});
+    logger.on('flush', () => {
+        console.log("flush");
+    })
 
-module.exports.error =  (message) => {
-    logger.error(message);
-};
+    logger.on('finish', () => {
+        console.log("finish");
+        fluent.sender.end("end", {}, () => {
+        })
+    });
 
-module.exports.info =  (message) => {
-    logger.info(message);
-};
+    return logger
 
-module.exports.warn =  (message) => {
-    logger.warn(message);
-};
-
-module.exports.debug =  (message) => {
-    logger.debug(message);
-};
-
+}
