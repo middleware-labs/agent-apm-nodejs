@@ -14,7 +14,7 @@ class HostRecorder {
         this.meta.add('authorization', config.apiKey);
         this.metricsExporter = new OTLPMetricExporter({
             metadata: this.meta,
-            url: config.host,
+            url: "http://"+config.host+":"+config.port.grpc,
         });
         this.serviceName = config.serviceName ? config.serviceName : 'Service-' + process.pid;
         this.projectName = config.projectName ? config.projectName : 'Project-' + process.pid;
