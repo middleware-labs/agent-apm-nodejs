@@ -1,4 +1,5 @@
 let logger;
+let transformError;
 module.exports.track = (config = {}) => {
     if (!config.apiKey || !config.host || !config.projectName || !config.serviceName) return
     if (!config.port || (config.port && !config.port.grpc)) {
@@ -6,6 +7,12 @@ module.exports.track = (config = {}) => {
     }
     const MetricsCollector = require("./metrics-collector");
     logger = require('./logger').init(config);
+    const { format } = require('logform');
+    const { errors } = format;
+
+    const errorsFormat = errors({ stack: true })
+
+    transformError = errorsFormat.transform;
     require('./tracer-collector')(config)
     let apm_pause_metrics = config.pauseMetrics && config.pauseMetrics == 1 ? true : false;
     if (!apm_pause_metrics) {
@@ -14,7 +21,7 @@ module.exports.track = (config = {}) => {
 };
 
 module.exports.error = (message) => {
-    logger.error(message);
+    logger.error(transformError(message,{ stack: true }));
 };
 
 module.exports.info = (message) => {

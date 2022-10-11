@@ -17,7 +17,7 @@ tracker.track({
     pauseTraces:0
 })
 
-tracker.error('error');
+tracker.error(new Error('your error message'));
 
 tracker.info('info');
 
