@@ -25,13 +25,13 @@ module.exports =  (config) => {
                 })
             ],
         });
-
         sdk.addResource(new Resource({
-            [SemanticResourceAttributes.SERVICE_NAME]: config.serviceName ? config.serviceName : 'Service-' + process.pid,
+            [SemanticResourceAttributes.SERVICE_NAME]: config.serviceName,
             ['mw_agent']: true,
             ['mw.account_key']:config.apiKey,
-            ['project.name']:config.projectName ? config.projectName : 'Project-' + process.pid
+            ['project.name']:config.projectName,
         }))
+
 
         sdk.start()
             .then(() => console.log('Tracing initialized'))

@@ -1,11 +1,12 @@
 module.exports.init = (config) => {
+
     const winston = require('winston');
 
-    const tag = config.serviceName ? config.serviceName : 'nodejs-app';
+    const tag = config.serviceName;
 
-    const host = config.host && config.host !== "" ? config.host : "localhost";
+    const host = config.host;
 
-    const port = config.port && config.port.fluent && config.port.fluent !== "" ? config.port.fluent : 8006;
+    const port = config.port.fluent;
 
     const c = {
         host,
