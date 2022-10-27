@@ -1,5 +1,4 @@
 'use strict'
-const process = require('process');
 const {SemanticResourceAttributes} = require("@opentelemetry/semantic-conventions");
 const {Resource} = require("@opentelemetry/resources");
 const {OTLPMetricExporter} = require('@opentelemetry/exporter-metrics-otlp-grpc');
@@ -16,8 +15,8 @@ class HostRecorder {
             metadata: this.meta,
             url: "http://"+config.host+":"+config.port.grpc,
         });
-        this.serviceName = config.serviceName ? config.serviceName : 'Service-' + process.pid;
-        this.projectName = config.projectName ? config.projectName : 'Project-' + process.pid;
+        this.serviceName = config.serviceName;
+        this.projectName = config.projectName;
     }
 
     _send(metric_name,value){
