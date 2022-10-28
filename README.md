@@ -5,18 +5,17 @@
 
 const tracker = require('@middleware.io/node-apm');
 tracker.track({
-    apiKey:"Your middleware api key",
     projectName:"Your application name",
     serviceName:"Your service name",
 })
 
 tracker.error(new Error('your error message'));
 
-tracker.info('info');
+tracker.info('your info messaege');
 
-tracker.warn('warning');
+tracker.warn('your warning message');
 
-tracker.debug('debug');
+tracker.debug('your debug message');
 
 ```
 

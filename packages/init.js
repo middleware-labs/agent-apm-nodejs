@@ -5,7 +5,6 @@ const { errors } = format;
 const errorsFormat = errors({ stack: true })
 let transformError = errorsFormat.transform;
 module.exports.track = (config = {}) => {
-    if (!config.apiKey) return
     config['host'] = config['host'] ? config['host'] : "localhost";
     config['projectName'] = config['projectName'] ? config['projectName'] : "Project-"+process.pid;
     config['serviceName'] = config['serviceName'] ? config['serviceName'] : "Service-"+process.pid;
