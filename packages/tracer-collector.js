@@ -11,7 +11,7 @@ module.exports =  (config) => {
         const {SemanticResourceAttributes} = require("@opentelemetry/semantic-conventions");
         const sdk = new opentelemetry.NodeSDK({
             traceExporter: new OTLPTraceExporter({
-                url: "http://"+config.host+":"+config.port.grpc,
+                url: config.hostUrl,
             }),
             instrumentations: [
                 getNodeAutoInstrumentations({}),
@@ -28,11 +28,11 @@ module.exports =  (config) => {
 
 
         sdk.start()
-            .then(() => console.log('Tracing initialized'))
+            .then(() => {})
             .catch((error) => console.log('Error initializing tracing', error));
         process.on('SIGTERM', () => {
             sdk.shutdown()
-                .then(() => console.log('Tracing terminated'))
+                .then(() => {})
                 .catch((error) => console.log('Error terminating tracing', error))
                 .finally(() => process.exit(0));
         });
