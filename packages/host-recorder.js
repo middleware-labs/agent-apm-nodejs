@@ -8,7 +8,7 @@ class HostRecorder {
     constructor(config) {
         this.config=config;
         this.metricsExporter = new OTLPMetricExporter({
-            url: "http://"+config.host+":"+config.port.grpc,
+            url: config.hostUrl,
         });
         this.serviceName = config.serviceName;
         this.projectName = config.projectName;
