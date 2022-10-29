@@ -4,7 +4,7 @@ module.exports.init = (config) => {
 
     const tag = config.serviceName;
 
-    const host = config.hostUrl;
+    const host = config.host;
 
     const port = config.port.fluent;
 
