@@ -10,7 +10,7 @@ module.exports.track = (config = {}) => {
     config['projectName'] = config['projectName'] ? config['projectName'] : "Project-"+process.pid;
     config['serviceName'] = config['serviceName'] ? config['serviceName'] : "Service-"+process.pid;
     config['port'] = config['port'] ? config['port'] : {};
-    if (!config.port || (config.port && !config.port.grpc)) {config['port']['grpc'] = isHostExist ? 9319 : 4320}
+    if (!config.port || (config.port && !config.port.grpc)) {config['port']['grpc'] = 9319}
     if (!config.port || (config.port && !config.port.fluent)) {config['port']['fluent'] = 8006}
     config['hostUrl'] = isHostExist ? process.env.MW_AGENT_SERVICE+":"+config.port.grpc : "http://"+config.host+":"+config.port.grpc
     const MetricsCollector = require("./metrics-collector");
