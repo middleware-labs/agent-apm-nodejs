@@ -1,8 +1,7 @@
 module.exports.init = (config) => {
-
     const winston = require('winston');
 
-    const tag = config.serviceName;
+    const tag = config.projectName;
 
     const host = config.host;
 
@@ -23,15 +22,11 @@ module.exports.init = (config) => {
     });
 
     logger.on('flush', () => {
-        console.log("flush");
     })
 
     logger.on('finish', () => {
-        console.log("finish");
-        fluent.sender.end("end", {}, () => {
-        })
+        fluent.sender.end("end", {}, () => {})
     });
-
     return logger
 
 }

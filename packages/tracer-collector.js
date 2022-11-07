@@ -1,4 +1,4 @@
-module.exports =  (config) => {
+module.exports.init =  (config) => {
     let apm_pause_traces= (config.pauseTraces && config.pauseTraces==1) ? true : false;
     if(!apm_pause_traces) {
         const grpc = require('@grpc/grpc-js');
@@ -25,8 +25,6 @@ module.exports =  (config) => {
             ['mw_agent']: true,
             ['project.name']:config.projectName,
         }))
-
-
         sdk.start()
             .then(() => {})
             .catch((error) => console.log('Error initializing tracing', error));

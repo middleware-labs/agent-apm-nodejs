@@ -12,6 +12,7 @@
     "@opentelemetry/api": "^1.0.4",
     "@opentelemetry/auto-instrumentations-node": "^0.28.0",
     "@opentelemetry/exporter-metrics-otlp-grpc": "^0.27.0",
+    "@opentelemetry/exporter-prometheus": "^0.33.0",
     "@opentelemetry/exporter-trace-otlp-grpc": "^0.27.0",
     "@opentelemetry/instrumentation-grpc": "^0.32.0",
     "@opentelemetry/propagator-b3": "^1.1.1",
@@ -40,5 +41,7 @@
     "url": "https://github.com/middleware-labs/agent-apm-nodejs/issues"
   },
   "homepage": "https://github.com/middleware-labs/agent-apm-nodejs#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+  }
 }
