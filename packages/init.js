@@ -1,5 +1,6 @@
 let logger;
 const { format } = require('logform');
+const otel = require('@opentelemetry/api')
 const { errors } = format;
 const errorsFormat = errors({ stack: true })
 let transformError = errorsFormat.transform;
@@ -23,4 +24,10 @@ module.exports.warn = (message) => {
 
 module.exports.debug = (message) => {
     logger.debug(message);
+};
+
+module.exports.errorRecord = (e) => {
+    const span = otel.trace.getSpan(otel.context.active())
+    span.recordException(e)
+    span.setStatus({ code: otel.SpanStatusCode.ERROR, message: String(e) })
 };
