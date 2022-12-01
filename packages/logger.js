@@ -18,11 +18,14 @@ module.exports.init = (config) => {
     const fluent = new fluentTransport(tag, c);
 
     const logger = winston.createLogger({
-        transports: [fluent, new (winston.transports.Console)()]
+        transports: [fluent, new (winston.transports.Console)({ level: 'debug' })]
     });
+
+    logger.emit('debug', { message: 'This is a message' });
 
     logger.on('flush', () => {
     })
+
 
     logger.on('finish', () => {
         fluent.sender.end("end", {}, () => {})
