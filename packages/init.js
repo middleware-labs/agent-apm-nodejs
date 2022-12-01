@@ -1,4 +1,4 @@
-let logger;
+let logger,config;
 const { format } = require('logform');
 const otel = require('@opentelemetry/api')
 const { errors } = format;
@@ -6,24 +6,25 @@ const errorsFormat = errors({ stack: true })
 let transformError = errorsFormat.transform;
 
 module.exports.track = (newConfig = {}) => {
-    let config = require('./config').init(newConfig)
+    config = require('./config').init(newConfig)
     logger = require('./logger').init(config);
 };
 
 module.exports.error = (message) => {
-    logger.error(transformError(message,{ stack: true }));
+    let stack=transformError(message,{ stack: true });
+    logger.error({message:typeof stack =="string" ? stack : stack.message ,stack,projectName:config.projectName,serviceName:config.serviceName});
 };
 
 module.exports.info = (message) => {
-    logger.info(message);
+    logger.info({message,projectName:config.projectName,serviceName:config.serviceName});
 };
 
 module.exports.warn = (message) => {
-    logger.warn(message);
+    logger.warn({message,projectName:config.projectName,serviceName:config.serviceName});
 };
 
 module.exports.debug = (message) => {
-    logger.debug(message);
+    logger.debug({message,projectName:config.projectName,serviceName:config.serviceName});
 };
 
 module.exports.errorRecord = (e) => {
