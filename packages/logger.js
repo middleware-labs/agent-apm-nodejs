@@ -21,10 +21,8 @@ module.exports.init = (config) => {
         transports: [fluent, new (winston.transports.Console)({ level: 'debug' })]
     });
 
-    logger.emit('debug', { message: 'This is a message' });
 
-    logger.on('flush', () => {
-    })
+    logger.on('flush', () => {})
 
 
     logger.on('finish', () => {
