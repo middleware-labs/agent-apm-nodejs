@@ -12,19 +12,19 @@ module.exports.track = (newConfig = {}) => {
 
 module.exports.error = (message) => {
     let stack=transformError(message,{ stack: true });
-    logger.error({message:typeof stack =="string" ? stack : stack.message ,stack,projectName:config.projectName,serviceName:config.serviceName});
+    logger.error({message:typeof stack =="string" ? stack : stack.message , stack, "project.name":config.projectName, "service.name":config.serviceName});
 };
 
 module.exports.info = (message) => {
-    logger.info({message,projectName:config.projectName,serviceName:config.serviceName});
+    logger.info({message, "project.name":config.projectName, "service.name":config.serviceName});
 };
 
 module.exports.warn = (message) => {
-    logger.warn({message,projectName:config.projectName,serviceName:config.serviceName});
+    logger.warn({message,"project.name":config.projectName,"service.name":config.serviceName});
 };
 
 module.exports.debug = (message) => {
-    logger.debug({message,projectName:config.projectName,serviceName:config.serviceName});
+    logger.debug({message,"project.name":config.projectName,"service.name":config.serviceName});
 };
 
 module.exports.errorRecord = (e) => {
