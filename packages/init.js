@@ -32,3 +32,8 @@ module.exports.errorRecord = (e) => {
     span.recordException(e)
     span.setStatus({ code: otel.SpanStatusCode.ERROR, message: String(e) })
 };
+
+module.exports.setAttribute = (name,value) => {
+    const span = otel.trace.getSpan(otel.context.active())
+    span.setAttribute(name,value)
+};
