@@ -29,11 +29,15 @@ module.exports.debug = (message) => {
 
 module.exports.errorRecord = (e) => {
     const span = otel.trace.getSpan(otel.context.active())
-    span.recordException(e)
-    span.setStatus({ code: otel.SpanStatusCode.ERROR, message: String(e) })
+    if(span){
+        span.recordException(e)
+        span.setStatus({ code: otel.SpanStatusCode.ERROR, message: String(e) })
+    }
 };
 
 module.exports.setAttribute = (name,value) => {
     const span = otel.trace.getSpan(otel.context.active())
-    span.setAttribute(name,value)
+    if(span){
+        span.setAttribute(name,value)
+    }
 };
