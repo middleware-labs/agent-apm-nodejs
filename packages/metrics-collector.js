@@ -3,14 +3,14 @@ module.exports.init =  (config) => {
     if (!apm_pause_metrics) {
         const v8 = require('v8')
         const os = require('os')
+        const {OTLPMetricExporter} = require('@opentelemetry/exporter-metrics-otlp-grpc');
         const {SemanticResourceAttributes} = require("@opentelemetry/semantic-conventions");
         const {Resource} = require("@opentelemetry/resources");
-        const {OTLPMetricExporter} = require('@opentelemetry/exporter-metrics-otlp-grpc');
-        const {MeterProvider} = require('@opentelemetry/sdk-metrics-base');
+        const {MeterProvider,PeriodicExportingMetricReader} = require('@opentelemetry/sdk-metrics');
+        const metricsExporter = new OTLPMetricExporter({url: config.hostUrl});
         this.config = config;
         this.time = process.hrtime()
         this.cpuUsage = false
-        this.metricsExporter = new OTLPMetricExporter({url: config.hostUrl});
         this.serviceName = config.serviceName;
         this.projectName = config.projectName;
         setInterval(() => {
@@ -29,14 +29,11 @@ module.exports.init =  (config) => {
                 this.enqueue['cpu.total'] = this.totalPercent.toFixed(2);
                 this.enqueue['cpu.uptime'] = Math.round(process.uptime());
             }
-
             const eventLoop = require('./../build/Release/eventLoopStats');
             this.eventLoopMatric = eventLoop.sense()
             this.enqueue['event_loop.delay.min'] = this.eventLoopMatric.min.toFixed(2);
             this.enqueue['event_loop.delay.max'] = this.eventLoopMatric.max.toFixed(2);
             this.enqueue['event_loop.delay.sum'] = this.eventLoopMatric.sum.toFixed(2);
-
-
             if (v8.getHeapSpaceStatistics) {
                 this.stats = v8.getHeapSpaceStatistics()
                 for (let i = 0, l = this.stats.length; i < l; i++) {
@@ -47,7 +44,6 @@ module.exports.init =  (config) => {
                     this.enqueue[`heap.physical_size.by.space.${this.tags}`] = this.stats[i].physical_space_size;
                 }
             }
-
             this.memoryStats = process.memoryUsage()
             this.enqueue[`mem.heap_total`] = this.memoryStats.heapTotal;
             this.enqueue[`mem.heap_used`] = this.memoryStats.heapUsed;
@@ -69,17 +65,20 @@ module.exports.init =  (config) => {
             if (this.heapStats.peak_malloced_memory) {
                 this.enqueue[`heap.peak_malloced_memory`] = this.heapStats.peak_malloced_memory;
             }
-
             Object.keys(this.enqueue).forEach(metric_name => {
                 if (this.enqueue[metric_name]) {
-                    this.meter = new MeterProvider({
-                        exporter: this.metricsExporter,
-                        resource: new Resource({
+                    this.meterProvider = new MeterProvider({
+                        resource:new Resource({
                             [SemanticResourceAttributes.SERVICE_NAME]: this.serviceName,
                             ['mw_agent']: true,
                             ['project.name']: this.projectName
-                        }),
-                    }).getMeter('node-app-meter');
+                        })
+                    });
+                    this.meterProvider.addMetricReader(new PeriodicExportingMetricReader({
+                        exporter: metricsExporter,
+                        exportIntervalMillis: 10000,
+                    }));
+                    this.meter = this.meterProvider.getMeter('node-app-meter');
                     this.counter = this.meter.createCounter(metric_name);
                     this.counter.add(parseFloat(this.enqueue[metric_name]));
                 }
