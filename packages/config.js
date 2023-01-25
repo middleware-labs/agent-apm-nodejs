@@ -12,7 +12,8 @@ const configDefault = {
         'grpc':9319,
         'fluent':8006
     },
-    'hostUrl':'http://localhost:9319'
+    'hostUrl':'http://localhost:9319',
+    'collectMetrics':false
 }
 
 module.exports.init = (config = {}) => {
@@ -25,7 +26,7 @@ module.exports.init = (config = {}) => {
         configDefault['hostUrl'] = process.env.MW_AGENT_SERVICE+":"+configDefault.port.grpc
     }
     diag.setLogger(new DiagConsoleLogger(), configDefault['DEBUG'] ? DiagLogLevel.DEBUG : DiagLogLevel.NONE);
-    metrics.init(configDefault)
+    if (configDefault['collectMetrics']) {metrics.init(configDefault)}
     tracer.init(configDefault)
     return configDefault
 }
