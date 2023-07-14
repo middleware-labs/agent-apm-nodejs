@@ -18,7 +18,7 @@ const configDefault = {
     'enableProfiling': true,
     'accessToken': '',
     'tenantID': '',
-    'authURL': 'https://app.middleware.io/api/v1/auth',
+    'mwAuthURL': 'https://app.middleware.io/api/v1/auth',
 }
 
 module.exports.init = (config = {}) => {
