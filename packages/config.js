@@ -13,7 +13,12 @@ const configDefault = {
         'fluent':8006
     },
     'hostUrl':'http://localhost:9319',
-    'collectMetrics':false
+    'collectMetrics':false,
+    'profilingServerUrl': 'https://profiling.middleware.io',
+    'enableProfiling': true,
+    'accessToken': '',
+    'tenantID': '',
+    'authURL': 'https://app.middleware.io/api/v1/auth',
 }
 
 module.exports.init = (config = {}) => {
