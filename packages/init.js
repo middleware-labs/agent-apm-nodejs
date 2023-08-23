@@ -25,7 +25,8 @@ module.exports.warn = (message) => {
 };
 
 module.exports.debug = (message) => {
-    logger.debug({message,"project.name":config.projectName,"service.name":config.serviceName});
+    logger.level = 'debug';
+    logger.log('debug', message, { "project.name": config.projectName,"service.name":config.serviceName});
 };
 
 module.exports.errorRecord = (e) => {
