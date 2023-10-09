@@ -1,7 +1,7 @@
 const {diag, DiagConsoleLogger, DiagLogLevel} = require('@opentelemetry/api');
 const process = require('process');
-const tracer = require('./tracer-collector');
-const metrics = require('./metrics-collector');
+const tracer = require('./traces');
+const metrics = require('./metrics');
 
 const configDefault = {
     'DEBUG' : DiagLogLevel.NONE,
@@ -19,6 +19,7 @@ const configDefault = {
     'accessToken': '',
     'tenantID': '',
     'mwAuthURL': 'https://app.middleware.io/api/v1/auth',
+    'consoleLog':false
 }
 
 module.exports.init = (config = {}) => {
@@ -35,3 +36,4 @@ module.exports.init = (config = {}) => {
     tracer.init(configDefault)
     return configDefault
 }
+

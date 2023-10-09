@@ -1,7 +1,7 @@
 const Pyroscope = require('@pyroscope/nodejs');
 const axios = require('axios');
 
-module.exports.init = async (config) => {
+module.exports.profilerInitializer = async (config) => {
 
     if (config.enableProfiling && config.accessToken !== '') {
         try {

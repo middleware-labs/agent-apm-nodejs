@@ -1,6 +1,6 @@
 {
   "name": "@middleware.io/node-apm",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,27 +10,27 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.6.7",
     "@opentelemetry/api": "^1.4.0",
+    "@opentelemetry/api-logs": "^0.43.0",
     "@opentelemetry/auto-instrumentations-node": "^0.28.0",
+    "@opentelemetry/exporter-logs-otlp-grpc": "^0.43.0",
     "@opentelemetry/exporter-metrics-otlp-grpc": "^0.35.0",
     "@opentelemetry/exporter-trace-otlp-grpc": "^0.41.0",
     "@opentelemetry/instrumentation-grpc": "^0.32.0",
     "@opentelemetry/propagator-b3": "^1.1.1",
     "@opentelemetry/resources": "^1.2.0",
+    "@opentelemetry/sdk-logs": "^0.43.0",
     "@opentelemetry/sdk-metrics": "^1.9.0",
     "@opentelemetry/sdk-node": "^0.35.0",
     "@opentelemetry/sdk-trace-base": "^1.0.1",
     "@opentelemetry/sdk-trace-node": "^1.0.1",
     "@opentelemetry/semantic-conventions": "^1.2.0",
     "@pyroscope/nodejs": "^0.2.6",
-    "express": "^4.18.1",
-    "fluent-logger": "^3.4.1",
     "logform": "^2.4.2",
     "nan": "^2.15.0",
     "node-addon-api": "^4.3.0",
     "node-fetch": "^2.6.0",
     "node-gyp": "^9.0.0",
-    "process": "^0.11.10",
-    "winston": "^3.8.1"
+    "process": "^0.11.10"
   },
   "gypfile": true,
   "repository": {
@@ -41,7 +41,5 @@
     "url": "https://github.com/middleware-labs/agent-apm-nodejs/issues"
   },
   "homepage": "https://github.com/middleware-labs/agent-apm-nodejs#readme",
-  "description": "",
-  "devDependencies": {
-  }
+  "description": ""
 }

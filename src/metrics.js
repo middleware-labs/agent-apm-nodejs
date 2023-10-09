@@ -13,6 +13,19 @@ module.exports.init =  (config) => {
         this.cpuUsage = false
         this.serviceName = config.serviceName;
         this.projectName = config.projectName;
+        this.meterProvider = new MeterProvider({
+            resource:new Resource({
+                [SemanticResourceAttributes.SERVICE_NAME]: this.serviceName,
+                ['mw_agent']: true,
+                ['project.name']: this.projectName,
+                ['runtime.metrics.nodejs']:"1"
+            })
+        });
+        this.meterProvider.addMetricReader(new PeriodicExportingMetricReader({
+            exporter: metricsExporter,
+            exportIntervalMillis: 60000,
+        }));
+        this.meter = this.meterProvider.getMeter('node-app-meter');
         setInterval(() => {
             if (process.cpuUsage) {
                 this.elapsedTime = process.hrtime(this.time)
@@ -67,23 +80,11 @@ module.exports.init =  (config) => {
             }
             Object.keys(this.enqueue).forEach(metric_name => {
                 if (this.enqueue[metric_name]) {
-                    this.meterProvider = new MeterProvider({
-                        resource:new Resource({
-                            [SemanticResourceAttributes.SERVICE_NAME]: this.serviceName,
-                            ['mw_agent']: true,
-                            ['project.name']: this.projectName
-                        })
-                    });
-                    this.meterProvider.addMetricReader(new PeriodicExportingMetricReader({
-                        exporter: metricsExporter,
-                        exportIntervalMillis: 10000,
-                    }));
-                    this.meter = this.meterProvider.getMeter('node-app-meter');
                     this.counter = this.meter.createCounter(metric_name);
                     this.counter.add(parseFloat(this.enqueue[metric_name]));
                 }
             })
-        }, 10000)
+        }, 60000)
     }
 };
 
