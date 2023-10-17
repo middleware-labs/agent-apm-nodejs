@@ -9,6 +9,7 @@ module.exports.track = (newConfig = {}) => {
     config = require('./config').init(newConfig)
     logger = require('./logger').init(config);
     profiler = require('./profiler').init(config);
+    return config
 };
 
 module.exports.error = (message) => {

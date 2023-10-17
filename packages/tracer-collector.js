@@ -10,9 +10,7 @@ module.exports.init =  (config) => {
         const {Resource} = require("@opentelemetry/resources");
         const {SemanticResourceAttributes} = require("@opentelemetry/semantic-conventions");
         const sdk = new opentelemetry.NodeSDK({
-            traceExporter: new OTLPTraceExporter({
-                url: config.hostUrl,
-            }),
+            traceExporter: config.traceExporter,
             instrumentations: [
                 getNodeAutoInstrumentations({}),
                 new GrpcInstrumentation({

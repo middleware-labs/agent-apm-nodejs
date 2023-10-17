@@ -28,7 +28,6 @@ module.exports.init = async (config) => {
                     appName: config.serviceName,
                     tenantID: config.TenantID,
                 });
-
                 Pyroscope.start()
               } else {
                 console.log('Failed to retrieve TenantID from API response');

@@ -2,6 +2,7 @@ const {diag, DiagConsoleLogger, DiagLogLevel} = require('@opentelemetry/api');
 const process = require('process');
 const tracer = require('./tracer-collector');
 const metrics = require('./metrics-collector');
+const {OTLPTraceExporter} = require('@opentelemetry/exporter-trace-otlp-grpc');
 
 const configDefault = {
     'DEBUG' : DiagLogLevel.NONE,
@@ -19,6 +20,7 @@ const configDefault = {
     'accessToken': '',
     'tenantID': '',
     'mwAuthURL': 'https://app.middleware.io/api/v1/auth',
+    'traceExporter': {},
 }
 
 module.exports.init = (config = {}) => {
@@ -30,6 +32,11 @@ module.exports.init = (config = {}) => {
         configDefault['host'] = process.env.MW_AGENT_SERVICE
         configDefault['hostUrl'] = process.env.MW_AGENT_SERVICE+":"+configDefault.port.grpc
     }
+
+    configDefault['traceExporter'] = new OTLPTraceExporter({
+        url: configDefault['hostUrl'],
+    }),
+
     diag.setLogger(new DiagConsoleLogger(), configDefault['DEBUG'] ? DiagLogLevel.DEBUG : DiagLogLevel.NONE);
     if (configDefault['collectMetrics']) {metrics.init(configDefault)}
     tracer.init(configDefault)
