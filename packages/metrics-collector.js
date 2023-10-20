@@ -71,7 +71,8 @@ module.exports.init =  (config) => {
                         resource:new Resource({
                             [SemanticResourceAttributes.SERVICE_NAME]: this.serviceName,
                             ['mw_agent']: true,
-                            ['project.name']: this.projectName
+                            ['project.name']: this.projectName,
+                            ['mw.account_key']:config.accessToken
                         })
                     });
                     this.meterProvider.addMetricReader(new PeriodicExportingMetricReader({
