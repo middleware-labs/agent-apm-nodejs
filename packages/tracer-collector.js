@@ -9,6 +9,17 @@ module.exports.init =  (config) => {
         const { GrpcInstrumentation } = require('@opentelemetry/instrumentation-grpc');
         const {Resource} = require("@opentelemetry/resources");
         const {SemanticResourceAttributes} = require("@opentelemetry/semantic-conventions");
+        const api = require('@opentelemetry/api');
+        const { CompositePropagator } = require('@opentelemetry/core');
+        const { B3Propagator, B3InjectEncoding } = require('@opentelemetry/propagator-b3');
+        api.propagation.setGlobalPropagator(
+            new CompositePropagator({
+                propagators: [
+                    new B3Propagator(),
+                    new B3Propagator({ injectEncoding: B3InjectEncoding.MULTI_HEADER }),
+                ],
+            })
+        );
         const sdk = new opentelemetry.NodeSDK({
             traceExporter: new OTLPTraceExporter({
                 url: config.hostUrl,
@@ -24,6 +35,7 @@ module.exports.init =  (config) => {
             [SemanticResourceAttributes.SERVICE_NAME]: config.serviceName,
             ['mw_agent']: true,
             ['project.name']:config.projectName,
+            ['mw.account_key']:config.accessToken
         }))
         sdk.start()
             .then(() => {})
