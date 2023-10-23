@@ -1,33 +1,28 @@
-let logger,config;
-const { format } = require('logform');
 const otel = require('@opentelemetry/api')
-const { errors } = format;
-const errorsFormat = errors({ stack: true })
-let transformError = errorsFormat.transform;
+const {loggerInitializer,log} = require('./logger')
 
 module.exports.track = (newConfig = {}) => {
-    config = require('./config').init(newConfig)
-    logger = require('./logger').init(config);
-    profiler = require('./profiler').init(config);
+    let  config = require('./config').init(newConfig)
+    loggerInitializer(config);
+    require('./profiler').init(config);
 };
 
-module.exports.error = (message) => {
-    let stack=transformError(message,{ stack: true });
-    logger.error({message:typeof stack =="string" ? stack : stack.message , stack, "project.name":config.projectName, "service.name":config.serviceName});
+module.exports.info = (message, attributes = {}) => {
+    log('INFO', message, attributes);
 };
 
-module.exports.info = (message) => {
-    logger.info({message, "project.name":config.projectName, "service.name":config.serviceName});
+module.exports.warn = (message, attributes = {}) => {
+    log('WARN', message, attributes);
 };
 
-module.exports.warn = (message) => {
-    logger.warn({message,"project.name":config.projectName,"service.name":config.serviceName});
+module.exports.debug = (message, attributes = {}) => {
+    log('DEBUG', message, attributes);
 };
 
-module.exports.debug = (message) => {
-    logger.level = 'debug';
-    logger.log('debug', message, { "project.name": config.projectName,"service.name":config.serviceName});
+module.exports.error = (message, attributes = {}) => {
+    log('ERROR', message, attributes);
 };
+
 
 module.exports.errorRecord = (e) => {
     const span = otel.trace.getSpan(otel.context.active())
