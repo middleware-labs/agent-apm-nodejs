@@ -22,7 +22,7 @@ module.exports.init =  (config) => {
         );
         const sdk = new opentelemetry.NodeSDK({
             traceExporter: new OTLPTraceExporter({
-                url: config.hostUrl,
+                url: config.target,
             }),
             instrumentations: [
                 getNodeAutoInstrumentations({}),

@@ -41,7 +41,7 @@ module.exports.loggerInitializer = (config) => {
     });
 
     loggerProvider.addLogRecordProcessor(
-        new SimpleLogRecordProcessor(new OTLPLogExporter({url:config.hostUrl})),
+        new SimpleLogRecordProcessor(new OTLPLogExporter({url:config.target})),
     );
     logs.setGlobalLoggerProvider(loggerProvider);
 
