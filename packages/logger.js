@@ -22,7 +22,6 @@ const log =  (level, message, attributes = {}) => {
         severityText: level,
         body: message,
         attributes: {
-            'fluent.tag': 'nodejs.app',
             'mw.app.lang': 'nodejs',
             'level': level.toLowerCase(),
             ...(typeof attributes === 'object' && Object.keys(attributes).length ? attributes : {})
