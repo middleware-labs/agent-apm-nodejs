@@ -19,6 +19,7 @@ const configDefault = {
     'accessToken': '',
     'tenantID': '',
     'mwAuthURL': 'https://app.middleware.io/api/v1/auth',
+    'consoleLog':false
 }
 
 module.exports.init = (config = {}) => {
