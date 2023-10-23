@@ -12,13 +12,14 @@ const configDefault = {
         'grpc':9319,
         'fluent':8006
     },
-    'hostUrl':'http://localhost:9319',
+    'target':'http://localhost:9319',
     'collectMetrics':false,
     'profilingServerUrl': 'https://profiling.middleware.io',
     'enableProfiling': true,
     'accessToken': '',
     'tenantID': '',
     'mwAuthURL': 'https://app.middleware.io/api/v1/auth',
+    'consoleLog':false
 }
 
 module.exports.init = (config = {}) => {
@@ -28,7 +29,7 @@ module.exports.init = (config = {}) => {
     let isHostExist = (process.env.MW_AGENT_SERVICE  && process.env.MW_AGENT_SERVICE!=="") ? true : false;
     if(isHostExist){
         configDefault['host'] = process.env.MW_AGENT_SERVICE
-        configDefault['hostUrl'] = process.env.MW_AGENT_SERVICE+":"+configDefault.port.grpc
+        configDefault['target'] = process.env.MW_AGENT_SERVICE+":"+configDefault.port.grpc
     }
     diag.setLogger(new DiagConsoleLogger(), configDefault['DEBUG'] ? DiagLogLevel.DEBUG : DiagLogLevel.NONE);
     if (configDefault['collectMetrics']) {metrics.init(configDefault)}

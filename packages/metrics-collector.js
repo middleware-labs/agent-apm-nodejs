@@ -7,7 +7,7 @@ module.exports.init =  (config) => {
         const {SemanticResourceAttributes} = require("@opentelemetry/semantic-conventions");
         const {Resource} = require("@opentelemetry/resources");
         const {MeterProvider,PeriodicExportingMetricReader} = require('@opentelemetry/sdk-metrics');
-        const metricsExporter = new OTLPMetricExporter({url: config.hostUrl});
+        const metricsExporter = new OTLPMetricExporter({url: config.target});
         this.config = config;
         this.time = process.hrtime()
         this.cpuUsage = false
