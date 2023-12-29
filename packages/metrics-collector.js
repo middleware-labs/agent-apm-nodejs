@@ -72,14 +72,16 @@ module.exports.init =  (config) => {
                             [SemanticResourceAttributes.SERVICE_NAME]: this.serviceName,
                             ['mw_agent']: true,
                             ['project.name']: this.projectName,
-                            ['mw.account_key']:config.accessToken
+                            ['mw.account_key']:config.accessToken,
+                            ['runtime.metrics.nodejs']:true,
+                            ['mw.app.lang']:"nodejs",
                         })
                     });
                     this.meterProvider.addMetricReader(new PeriodicExportingMetricReader({
                         exporter: metricsExporter,
                         exportIntervalMillis: 10000,
                     }));
-                    this.meter = this.meterProvider.getMeter('node-app-meter');
+                    this.meter = this.meterProvider.getMeter(this.serviceName);
                     this.counter = this.meter.createCounter(metric_name);
                     this.counter.add(parseFloat(this.enqueue[metric_name]));
                 }
