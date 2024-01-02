@@ -1,19 +1,35 @@
 module.exports.init =  (config) => {
+    const {OTLPMetricExporter} = require('@opentelemetry/exporter-metrics-otlp-grpc');
+    const {SemanticResourceAttributes} = require("@opentelemetry/semantic-conventions");
+    const {Resource} = require("@opentelemetry/resources");
+    const {MeterProvider, PeriodicExportingMetricReader} = require('@opentelemetry/sdk-metrics');
+    const metricsExporter = new OTLPMetricExporter({url: config.target});
+    this.config = config;
+    this.serviceName = config.serviceName;
+    this.projectName = config.projectName;
+    this.meterProvider = new MeterProvider({
+        resource: new Resource({
+            [SemanticResourceAttributes.SERVICE_NAME]: this.serviceName,
+            ['mw_agent']: true,
+            ['project.name']: this.projectName,
+            ['mw.account_key']: config.accessToken,
+            ['runtime.metrics.nodejs']: true,
+            ['mw.app.lang']: "nodejs",
+        })
+    });
+    this.meterProvider.addMetricReader(new PeriodicExportingMetricReader({
+        exporter: metricsExporter,
+        exportIntervalMillis: 10000
+    }));
+    config.meterProvider=this.meterProvider
     let apm_pause_metrics = config.pauseMetrics && config.pauseMetrics == 1 ? true : false;
     if (!apm_pause_metrics) {
         const v8 = require('v8')
         const os = require('os')
-        const {OTLPMetricExporter} = require('@opentelemetry/exporter-metrics-otlp-grpc');
-        const {SemanticResourceAttributes} = require("@opentelemetry/semantic-conventions");
-        const {Resource} = require("@opentelemetry/resources");
-        const {MeterProvider,PeriodicExportingMetricReader} = require('@opentelemetry/sdk-metrics');
-        const metricsExporter = new OTLPMetricExporter({url: config.target});
-        this.config = config;
         this.time = process.hrtime()
         this.cpuUsage = false
-        this.serviceName = config.serviceName;
-        this.projectName = config.projectName;
-        setInterval(() => {
+        if (config.collectMetrics) {
+            setInterval(() => {
             if (process.cpuUsage) {
                 this.elapsedTime = process.hrtime(this.time)
                 this.elapsedUsage = process.cpuUsage(this.cpuUsage)
@@ -67,26 +83,13 @@ module.exports.init =  (config) => {
             }
             Object.keys(this.enqueue).forEach(metric_name => {
                 if (this.enqueue[metric_name]) {
-                    this.meterProvider = new MeterProvider({
-                        resource:new Resource({
-                            [SemanticResourceAttributes.SERVICE_NAME]: this.serviceName,
-                            ['mw_agent']: true,
-                            ['project.name']: this.projectName,
-                            ['mw.account_key']:config.accessToken,
-                            ['runtime.metrics.nodejs']:true,
-                            ['mw.app.lang']:"nodejs",
-                        })
-                    });
-                    this.meterProvider.addMetricReader(new PeriodicExportingMetricReader({
-                        exporter: metricsExporter,
-                        exportIntervalMillis: 10000,
-                    }));
                     this.meter = this.meterProvider.getMeter(this.serviceName);
                     this.counter = this.meter.createCounter(metric_name);
                     this.counter.add(parseFloat(this.enqueue[metric_name]));
                 }
             })
         }, 10000)
+        }
     }
 };
 
