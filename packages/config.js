@@ -19,7 +19,8 @@ const configDefault = {
     'accessToken': '',
     'tenantID': '',
     'mwAuthURL': 'https://app.middleware.io/api/v1/auth',
-    'consoleLog':false
+    'consoleLog':false,
+    'meterProvider':false
 }
 
 module.exports.init = (config = {}) => {
@@ -32,7 +33,7 @@ module.exports.init = (config = {}) => {
         configDefault['target'] = process.env.MW_AGENT_SERVICE+":"+configDefault.port.grpc
     }
     diag.setLogger(new DiagConsoleLogger(), configDefault['DEBUG'] ? DiagLogLevel.DEBUG : DiagLogLevel.NONE);
-    if (configDefault['collectMetrics']) {metrics.init(configDefault)}
+    metrics.init(configDefault)
     tracer.init(configDefault)
     return configDefault
 }

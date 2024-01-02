@@ -1,8 +1,8 @@
 const otel = require('@opentelemetry/api')
 const {loggerInitializer,log} = require('./logger')
-
+let  config;
 module.exports.track = (newConfig = {}) => {
-    let  config = require('./config').init(newConfig)
+    config = require('./config').init(newConfig)
     loggerInitializer(config);
     require('./profiler').init(config);
 };
@@ -38,3 +38,13 @@ module.exports.setAttribute = (name,value) => {
         span.setAttribute(name,value)
     }
 };
+
+module.exports.getMeter =() => {
+    if (config.meterProvider){
+        return config.meterProvider.getMeter(config.serviceName)
+    }
+    return false
+}
+module.exports.getTracer =() => {
+    return otel.trace.getTracer(config.serviceName)
+}
