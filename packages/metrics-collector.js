@@ -15,8 +15,10 @@ module.exports.init =  (config) => {
             ['mw.account_key']: config.accessToken,
             ['runtime.metrics.nodejs']: true,
             ['mw.app.lang']: "nodejs",
+            ['mw_serverless']:config.isServerless ? 1 : 0,
         })
     });
+
     this.meterProvider.addMetricReader(new PeriodicExportingMetricReader({
         exporter: metricsExporter,
         exportIntervalMillis: 10000

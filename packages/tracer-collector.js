@@ -35,7 +35,8 @@ module.exports.init =  (config) => {
             [SemanticResourceAttributes.SERVICE_NAME]: config.serviceName,
             ['mw_agent']: true,
             ['project.name']:config.projectName,
-            ['mw.account_key']:config.accessToken
+            ['mw.account_key']:config.accessToken,
+            ['mw_serverless']:config.isServerless ? 1 : 0,
         }))
         sdk.start()
             .then(() => {})

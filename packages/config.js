@@ -20,10 +20,12 @@ const configDefault = {
     'tenantID': '',
     'mwAuthURL': 'https://app.middleware.io/api/v1/auth',
     'consoleLog':false,
-    'meterProvider':false
+    'meterProvider':false,
+    'isServerless':false,
 }
 
 module.exports.init = (config = {}) => {
+    if (config.hasOwnProperty('target')) {configDefault["isServerless"] = true}
     Object.keys(configDefault).forEach(function(key) {
         configDefault[key] = config[key] ? config[key] : configDefault[key];
     })
