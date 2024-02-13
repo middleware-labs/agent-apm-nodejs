@@ -1,9 +1,8 @@
 const otel = require('@opentelemetry/api')
-const {loggerInitializer,log} = require('./logger')
+const {log} = require('./logger')
 let  config;
 module.exports.track = (newConfig = {}) => {
     config = require('./config').init(newConfig)
-    loggerInitializer(config);
     require('./profiler').init(config);
 };
 

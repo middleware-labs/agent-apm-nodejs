@@ -2,6 +2,7 @@ const {diag, DiagConsoleLogger, DiagLogLevel} = require('@opentelemetry/api');
 const process = require('process');
 const tracer = require('./tracer-collector');
 const metrics = require('./metrics-collector');
+const {loggerInitializer} = require('./logger')
 
 const configDefault = {
     'DEBUG' : DiagLogLevel.NONE,
@@ -31,11 +32,12 @@ module.exports.init = (config = {}) => {
     })
     let isHostExist = (process.env.MW_AGENT_SERVICE  && process.env.MW_AGENT_SERVICE!=="") ? true : false;
     if(isHostExist){
-        configDefault['host'] = process.env.MW_AGENT_SERVICE
-        configDefault['target'] = process.env.MW_AGENT_SERVICE+":"+configDefault.port.grpc
+        configDefault['host'] = "http://"+process.env.MW_AGENT_SERVICE
+        configDefault['target'] = "http://"+process.env.MW_AGENT_SERVICE+":"+configDefault.port.grpc
     }
     diag.setLogger(new DiagConsoleLogger(), configDefault['DEBUG'] ? DiagLogLevel.DEBUG : DiagLogLevel.NONE);
     metrics.init(configDefault)
     tracer.init(configDefault)
+    loggerInitializer(configDefault);
     return configDefault
 }

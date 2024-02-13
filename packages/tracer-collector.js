@@ -39,8 +39,6 @@ module.exports.init =  (config) => {
             ['mw_serverless']:config.isServerless ? 1 : 0,
         }))
         sdk.start()
-            .then(() => {})
-            .catch((error) => console.log('Error initializing tracing', error));
         process.on('SIGTERM', () => {
             sdk.shutdown()
                 .then(() => {})
