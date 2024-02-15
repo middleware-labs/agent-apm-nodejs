@@ -12,6 +12,7 @@ module.exports.init =  (config) => {
         const api = require('@opentelemetry/api');
         const { CompositePropagator } = require('@opentelemetry/core');
         const { B3Propagator, B3InjectEncoding } = require('@opentelemetry/propagator-b3');
+        const { MongooseInstrumentation } = require('@opentelemetry/instrumentation-mongoose');
         api.propagation.setGlobalPropagator(
             new CompositePropagator({
                 propagators: [
@@ -28,7 +29,8 @@ module.exports.init =  (config) => {
                 getNodeAutoInstrumentations({}),
                 new GrpcInstrumentation({
                     ignoreGrpcMethods:["Export"]
-                })
+                }),
+                new MongooseInstrumentation(),
             ],
         });
         sdk.addResource(new Resource({
